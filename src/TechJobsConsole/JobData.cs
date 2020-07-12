@@ -49,7 +49,7 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
@@ -138,5 +138,36 @@ namespace TechJobsConsole
 
             return rowValues.ToArray();
         }
+
+
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            // load data, if not already loaded
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+            // iterate through each dictionary in AllJobs
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+                // iterate through each key/value pair in dictionary
+                foreach (KeyValuePair<string, string> job in row)
+                {
+                    // check if jobs list already contains the dictionary
+                    if (!jobs.Contains(row))
+                    {
+                        // check if dictionary value contains search value, both converted to lowercase
+                        if (job.Value.ToLower().Contains(value.ToLower()))
+                        {
+                            jobs.Add(row);
+                        }
+                    }
+
+                }
+            }
+
+            return jobs;
+        } 
+
     }
+        
 }
